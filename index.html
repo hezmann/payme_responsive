@@ -637,7 +637,10 @@
             border-radius: 0;
             padding: 10px;
             box-shadow: none;
-            position: relative;
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
             z-index: 10;
         }
 
@@ -1096,6 +1099,53 @@
         .hand-area .cards-container .card.selected {
             transform: translateY(-25px) scale(1.05);
             z-index: 100;
+        }
+
+        /* Turn indicator styles */
+        .my-turn-indicator {
+            position: fixed;
+            bottom: clamp(190px, calc(180px + 2vh), 210px);
+            left: 50%;
+            transform: translateX(-50%);
+            z-index: 70;
+            background: linear-gradient(135deg, #28a745 0%, #20c997 100%);
+            color: white;
+            padding: 12px 24px;
+            border-radius: 30px;
+            font-weight: bold;
+            font-size: clamp(14px, 1.5vw, 18px);
+            box-shadow: 0 4px 15px rgba(40, 167, 69, 0.4);
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            animation: pulseGlow 2s ease-in-out infinite;
+            pointer-events: none;
+        }
+
+        @keyframes pulseGlow {
+            0%, 100% {
+                box-shadow: 0 4px 15px rgba(40, 167, 69, 0.4), 0 0 20px rgba(40, 167, 69, 0.3);
+                transform: translateX(-50%) translateY(0);
+            }
+            50% {
+                box-shadow: 0 4px 25px rgba(40, 167, 69, 0.6), 0 0 40px rgba(40, 167, 69, 0.5);
+                transform: translateX(-50%) translateY(-5px);
+            }
+        }
+
+        .my-turn-indicator::before {
+            content: '👇';
+            font-size: 1.2em;
+            animation: bounce 1s ease-in-out infinite;
+        }
+
+        @keyframes bounce {
+            0%, 100% {
+                transform: translateY(0);
+            }
+            50% {
+                transform: translateY(-5px);
+            }
         }
 
         .actions {
@@ -7546,6 +7596,12 @@ const processAITurn = () => {
                                         </div>
                                     </>
                                 )}
+                            </div>
+                        )}
+                        {}
+                        {isHumanTurn && humanPlayer.hand.length > 0 && !allFinalPlaysComplete && !playersWhoHaveTakenFinalTurn.has(0) && (gamePhase === 'draw' || gamePhase === 'finaldraw') && (
+                            <div className="my-turn-indicator">
+                                Your Turn
                             </div>
                         )}
                         {}
