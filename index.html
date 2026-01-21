@@ -1104,6 +1104,7 @@
         /* Turn indicator styles */
         .my-turn-indicator {
             position: fixed;
+            /* Position above hand-area sticky-hand which is typically 180px from bottom */
             bottom: clamp(190px, calc(180px + 2vh), 210px);
             left: 50%;
             transform: translateX(-50%);
