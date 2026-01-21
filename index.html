@@ -655,7 +655,7 @@
 
         .card-stack {
             width: clamp(70px, 10vw, 110px);
-            height: clamp(105px, 15vw, 165px);
+            height: clamp(105px, calc(10vw * 1.5), 165px);
             border: 2px solid #333;
             border-radius: 6px;
             display: flex;
@@ -672,7 +672,7 @@
 
         .discard-card {
             width: clamp(70px, 10vw, 110px);
-            height: clamp(105px, 15vw, 165px);
+            height: clamp(105px, calc(10vw * 1.5), 165px);
             border: 2px solid #333;
             border-radius: 6px;
             display: inline-flex;
@@ -1932,7 +1932,6 @@
             /* FIX 13: Side panel on mobile */
             .side-panel.collapsed {
                 width: min(85vw, 300px) !important;
-                max-width: min(300px, 40vw) !important;
             }
 
             /* FIX 14: Player info in side panel */
@@ -3911,10 +3910,11 @@ function shuffle(array) {
                     const cardOverlap = 35; // negative margin for overlapping
                     
                     // Calculate effective width per card considering overlap
-                    const effectiveWidthPerCard = containerWidth / Math.max(1, cardCount);
+                    // When cards overlap, each card after the first takes up (cardWidth - overlap) space
+                    const effectiveWidthPerCard = (containerWidth + (cardCount - 1) * cardOverlap) / Math.max(1, cardCount);
                     const optimalCardWidth = Math.min(
                         maxCardWidth,
-                        Math.max(minCardWidth, effectiveWidthPerCard + cardOverlap - cardGap)
+                        Math.max(minCardWidth, effectiveWidthPerCard - cardGap)
                     );
                     
                     // Maintain 1.5 aspect ratio (height = width * 1.5)
