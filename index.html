@@ -235,7 +235,7 @@
         }
 
         .side-panel.collapsed {
-            width: 280px;
+            width: min(280px, 40vw);
         }
 
         .main-game-area {
@@ -654,8 +654,8 @@
         }
 
         .card-stack {
-            width: clamp(70px, 9vw, 110px);
-            height: clamp(105px, 13.5vw, 165px);
+            width: clamp(70px, 10vw, 110px);
+            height: clamp(105px, calc(10vw * 1.5), 165px);
             border: 2px solid #333;
             border-radius: 6px;
             display: flex;
@@ -671,8 +671,8 @@
         }
 
         .discard-card {
-            width: clamp(70px, 9vw, 110px);
-            height: clamp(105px, 13.5vw, 165px);
+            width: clamp(70px, 10vw, 110px);
+            height: clamp(105px, calc(10vw * 1.5), 165px);
             border: 2px solid #333;
             border-radius: 6px;
             display: inline-flex;
@@ -1023,6 +1023,9 @@
             z-index: 50;
             flex: 0 0 auto;
             min-height: 240px;
+            width: 100%;
+            max-width: 100%;
+            overflow: hidden;
         }
 
         .hand-label {
@@ -1041,12 +1044,44 @@
             min-height: 210px;
             align-items: flex-end;
             padding-top: 15px;
+            max-width: 100%;
+            /* Smooth scrolling for touch devices */
+            -webkit-overflow-scrolling: touch;
+            scroll-behavior: smooth;
+        }
+        
+        /* Hide scrollbar but keep functionality */
+        .cards-container::-webkit-scrollbar {
+            height: 4px;
+        }
+        
+        .cards-container::-webkit-scrollbar-track {
+            background: transparent;
+        }
+        
+        .cards-container::-webkit-scrollbar-thumb {
+            background: rgba(0, 0, 0, 0.2);
+            border-radius: 2px;
+        }
+        
+        .cards-container::-webkit-scrollbar-thumb:hover {
+            background: rgba(0, 0, 0, 0.3);
+        }
+        
+        /* Player hand container - prevent overflow and ensure cards fit */
+        .player-hand {
+            display: flex;
+            flex-direction: column;
+            width: 100%;
+            max-width: 100%;
+            overflow: hidden;
         }
 
         .hand-area .cards-container .card {
             position: relative;
             margin: 0 -35px;
             transition: all 0.2s ease;
+            flex-shrink: 0;
         }
 
         .hand-area .cards-container .card:first-child {
@@ -1405,7 +1440,7 @@
             }
 
             .side-panel.collapsed {
-                width: 280px;
+                width: min(280px, 40vw);
             }
 
             .main-game-area {
@@ -1413,7 +1448,7 @@
             }
 
             .game-content-wrapper:has(.side-panel.collapsed) .main-game-area {
-                margin-left: 280px;
+                margin-left: min(280px, 40vw);
             }
 
             .deck-area {
@@ -1609,6 +1644,64 @@
 
             .meld-building-area .meld-group {
                 min-height: 100px;
+            }
+        }
+        
+        /* Additional breakpoint for small phones */
+        @media (max-width: 480px) {
+            .card {
+                width: clamp(65px, 14vw, 90px);
+                height: clamp(97px, calc(14vw * 1.5), 135px);
+            }
+            
+            .card-stack, .discard-card {
+                width: clamp(65px, 12vw, 90px);
+                height: clamp(97px, calc(12vw * 1.5), 135px);
+            }
+            
+            .hand-area .cards-container .card {
+                margin: 0 -30px !important;
+            }
+            
+            .cards-container {
+                height: 100px !important;
+                min-height: 100px !important;
+            }
+            
+            .hand-area {
+                min-height: 120px !important;
+                padding: 15px 8px 8px 8px !important;
+            }
+        }
+        
+        /* Additional breakpoint for very small phones */
+        @media (max-width: 375px) {
+            .card {
+                width: clamp(55px, 13vw, 80px);
+                height: clamp(82px, calc(13vw * 1.5), 120px);
+            }
+            
+            .card-stack, .discard-card {
+                width: clamp(55px, 11vw, 80px);
+                height: clamp(82px, calc(11vw * 1.5), 120px);
+            }
+            
+            .hand-area .cards-container .card {
+                margin: 0 -25px !important;
+            }
+            
+            .cards-container {
+                height: 90px !important;
+                min-height: 90px !important;
+            }
+            
+            .hand-area {
+                min-height: 100px !important;
+                padding: 10px 5px 5px 5px !important;
+            }
+            
+            .header h1 {
+                font-size: 12px !important;
             }
         }
 
@@ -1838,8 +1931,7 @@
 
             /* FIX 13: Side panel on mobile */
             .side-panel.collapsed {
-                width: 85vw !important;
-                max-width: 300px !important;
+                width: min(85vw, 300px) !important;
             }
 
             /* FIX 14: Player info in side panel */
@@ -1915,6 +2007,60 @@
                 height: 82px !important;
             }
         }
+        
+        /* Portrait orientation adjustments for mobile devices */
+        @media (orientation: portrait) and (max-width: 768px) {
+            .hand-area .cards-container .card {
+                margin: 0 -30px !important;
+            }
+            
+            .cards-container {
+                overflow-x: auto;
+                padding-bottom: 5px;
+            }
+            
+            .deck-area {
+                flex-direction: column !important;
+                gap: 10px !important;
+            }
+            
+            /* Touch-action handling for portrait mode */
+            .card[draggable="true"] {
+                touch-action: pan-y; /* Allow vertical scrolling */
+            }
+        }
+        
+        /* Landscape orientation adjustments for mobile devices */
+        @media (orientation: landscape) and (max-height: 500px) {
+            .hand-area {
+                min-height: 80px !important;
+                padding: 8px 10px !important;
+            }
+            
+            .cards-container {
+                height: 70px !important;
+                min-height: 70px !important;
+            }
+            
+            .hand-area .cards-container .card {
+                margin: 0 -35px !important;
+            }
+            
+            .card {
+                width: clamp(50px, 12vw, 80px);
+                height: clamp(75px, 18vw, 120px);
+            }
+            
+            .card-stack, .discard-card {
+                width: clamp(50px, 10vw, 80px);
+                height: clamp(75px, 15vw, 120px);
+            }
+            
+            .deck-area {
+                flex-direction: row !important;
+                gap: 15px !important;
+            }
+        }
 
 .header{ margin: 6px; padding: 8px 12px; border-radius: 10px; }
 .header h1{ font-size: 22px; }
@@ -1931,8 +2077,8 @@
 .cards-container{ gap: 6px; }
 .card{ box-shadow: 0 2px 6px rgba(0,0,0,0.10); }
 
-  @media (max-width: 1400px){ .side-panel.collapsed{ width: 240px; } .game-content-wrapper:has(.side-panel.collapsed) .main-game-area{ margin-left: 240px; } }
-  @media (max-width: 768px){ .side-panel.collapsed{ width: 260px; } .main-game-area{ padding-left: 0 !important; } .game-content-wrapper:has(.side-panel.collapsed) .main-game-area{ margin-left: 260px; } }
+  @media (max-width: 1400px){ .side-panel.collapsed{ width: min(240px, 40vw); } .game-content-wrapper:has(.side-panel.collapsed) .main-game-area{ margin-left: min(240px, 40vw); } }
+  @media (max-width: 768px){ .side-panel.collapsed{ width: min(260px, 40vw); } .main-game-area{ padding-left: 0 !important; } .game-content-wrapper:has(.side-panel.collapsed) .main-game-area{ margin-left: min(260px, 40vw); } }
 
         .header-message{
             display:flex;
@@ -3748,6 +3894,52 @@ function shuffle(array) {
                 </div>
             );
         }
+        
+        // Custom hook to calculate optimal card dimensions based on container width and card count
+        function useCardDimensions(cardCount, containerRef) {
+            const [cardDimensions, setCardDimensions] = useState({ width: 110, height: 165 });
+            
+            useEffect(() => {
+                const calculateDimensions = () => {
+                    if (!containerRef.current) return;
+                    
+                    const containerWidth = containerRef.current.offsetWidth;
+                    const minCardWidth = 70;
+                    const maxCardWidth = 110;
+                    const cardGap = 3; // margin between cards
+                    const cardOverlap = 35; // negative margin for overlapping
+                    
+                    // Calculate effective width per card considering overlap
+                    // When cards overlap, each card after the first takes up (cardWidth - overlap) space
+                    const effectiveWidthPerCard = (containerWidth + (cardCount - 1) * cardOverlap) / Math.max(1, cardCount);
+                    const optimalCardWidth = Math.min(
+                        maxCardWidth,
+                        Math.max(minCardWidth, effectiveWidthPerCard - cardGap)
+                    );
+                    
+                    // Maintain 1.5 aspect ratio (height = width * 1.5)
+                    const optimalCardHeight = optimalCardWidth * 1.5;
+                    
+                    setCardDimensions({
+                        width: Math.round(optimalCardWidth),
+                        height: Math.round(optimalCardHeight)
+                    });
+                };
+                
+                calculateDimensions();
+                
+                // Recalculate on window resize
+                const handleResize = () => {
+                    calculateDimensions();
+                };
+                
+                window.addEventListener('resize', handleResize);
+                return () => window.removeEventListener('resize', handleResize);
+            }, [cardCount, containerRef]);
+            
+            return cardDimensions;
+        }
+        
         function GameSetup({ onStart }) {
             const allPlayerNames = AI_CHARACTERS.map(c => c.name);
             const [playerName, setPlayerName] = useState(allPlayerNames[0]);
