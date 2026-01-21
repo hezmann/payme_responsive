@@ -618,7 +618,7 @@
         }
 
         .game-area {
-            margin: 20px 0;
+            margin: 10px 0;
             display: flex;
             flex-direction: column;
             position: relative;
@@ -635,7 +635,7 @@
             background: transparent;
             border: none;
             border-radius: 0;
-            padding: 15px;
+            padding: 10px;
             box-shadow: none;
             position: relative;
             z-index: 10;
@@ -1016,11 +1016,11 @@
 
         .hand-area {
             background: transparent;
-            padding: 40px 20px 20px 20px;
+            padding: 15px 20px 20px 20px;
             border-radius: 8px;
             margin: 0;
             position: relative;
-            z-index: 10;
+            z-index: 50;
             flex: 0 0 auto;
             min-height: 240px;
         }
@@ -1040,7 +1040,7 @@
             height: 180px;
             min-height: 210px;
             align-items: flex-end;
-            padding-top: 40px;
+            padding-top: 15px;
         }
 
         .hand-area .cards-container .card {
@@ -1181,10 +1181,10 @@
             display: flex;
             flex-direction: column;
             gap: 8px;
-            z-index: 100;
+            /* Z-index lowered to 30 (from 100) to prevent overlapping winner's hand (z-index: 40) */
+            z-index: 30;
+            /* Vertical centering removed (top: 50%, transform: translateY(-50%)) to save space and allow normal flow positioning */
             position: relative;
-            top: 50%;
-            transform: translateY(-50%);
         }
 
         .meld-building-area .card {
@@ -1977,7 +1977,7 @@
         }
         .sticky-winner{
             position: relative;
-            z-index: 10;
+            z-index: 40;
             background: rgba(255,255,255,0.98);
             border-radius: 12px;
             padding: 8px 10px;
@@ -2099,7 +2099,7 @@
   box-shadow: none;
 
   padding-bottom: env(safe-area-inset-bottom);
-  padding-top: 60px;
+  padding-top: 20px;
 }
 
 .game-content-wrapper:has(.side-panel.collapsed) .hand-area.sticky-hand,
@@ -2108,7 +2108,8 @@
 }
 
 .game-screen{
-  padding-bottom: clamp(220px, 25vh, 260px);
+  /* Reduced from clamp(220px, 25vh, 260px) to save ~70-80px vertical space and allow cards to display larger */
+  padding-bottom: clamp(150px, 15vh, 180px);
 }
 </style>
 
@@ -2124,7 +2125,7 @@
 .meld-group .cards-container,
 .meld-building-area .cards-container{
   padding: 12px;
-  background: rgba(255,255,255,0.55);
+  background: transparent;
   border: 1px solid rgba(0,0,0,0.12);
   border-radius: 12px;
   min-height: 120px;
