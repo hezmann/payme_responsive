@@ -2,7 +2,7 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
     <title>Pay Me - Card Game</title>
 
     <script crossorigin src="https://unpkg.com/react@18/umd/react.production.min.js"></script>
@@ -27,10 +27,9 @@
 
         html, body {
             height: 100%;
-            overflow: hidden !important;
-            overflow-x: hidden !important;
-            overflow-y: hidden !important;
-            position: fixed;
+            min-height: 100dvh;
+            overflow-x: hidden;
+            overflow-y: auto;
             width: 100%;
         }
 
@@ -41,10 +40,10 @@
         }
 
         .game-container {
-            height: 100vh;
+            min-height: 100dvh;
             display: flex;
             flex-direction: column;
-            overflow: hidden;
+            overflow-y: auto;
         }
 
         .header {
@@ -97,64 +96,60 @@
 
         @media (max-width: 730px) {
             .header {
-                padding: 10px 15px;
+                padding: 8px 12px;
             }
 
             .header-top-row {
-                display: grid;
-                grid-template-columns: 1fr auto 1fr auto;
+                display: flex;
+                flex-wrap: wrap;
                 align-items: center;
-                gap: 10px;
+                gap: 8px;
                 width: 100%;
             }
 
             .header-top-row > h1 {
-                grid-column: 1;
-                grid-row: 1;
-                justify-self: start;
+                font-size: 14px;
+                flex: 0 0 auto;
             }
 
             .header-top-row > .game-info {
-                grid-column: 1 / 5;
-                grid-row: 1;
-                display: contents;
+                display: flex;
+                flex-wrap: wrap;
+                gap: 8px;
+                flex: 1 1 auto;
+                min-width: 0;
+                font-size: 11px;
             }
 
-            .game-info .info-item:nth-child(1),
-            .game-info .info-item:nth-child(3) {
-                display: none;
+            .game-info .info-item {
+                flex: 0 1 auto;
+                min-width: 0;
             }
 
-            .game-info .info-item:nth-child(2) {
-                grid-column: 2;
-                grid-row: 1;
-                justify-self: center;
-                text-align: center;
+            .game-info .info-item .info-label {
+                font-size: 9px;
             }
 
-            .game-info .info-item:nth-child(4) {
-                grid-column: 3 / 5;
-                grid-row: 1;
-                justify-self: end;
+            .game-info .info-item .info-value {
+                font-size: 11px;
             }
 
             .header-message {
-                grid-column: 1 / 4;
-                grid-row: 2;
-                margin: 5px 10px 0 0;
+                flex-basis: 100%;
+                margin: 4px 0 0 0;
             }
 
             .header-message .message-pill {
                 width: 100%;
                 text-align: center;
                 display: block;
+                font-size: 12px;
+                padding: 6px 8px;
             }
 
             .header-actions {
-                grid-column: 4;
-                grid-row: 2;
-                justify-self: end;
-                margin: 5px 0 0 0;
+                flex: 0 0 auto;
+                margin: 0;
             }
         }
 
@@ -181,9 +176,12 @@
             border: 2px solid #dee2e6;
             border-radius: 6px;
             padding: 8px 12px;
+            min-height: 44px;
+            min-width: 44px;
             cursor: pointer;
             font-size: 18px;
             transition: all 0.2s;
+            touch-action: manipulation;
         }
 
         .pause-button:hover {
@@ -298,11 +296,14 @@
             color: white;
             border: none;
             padding: 12px 24px;
+            min-height: 44px;
+            min-width: 44px;
             border-radius: 6px;
             font-size: 16px;
             font-weight: 600;
             cursor: pointer;
             transition: background 0.2s;
+            touch-action: manipulation;
         }
 
         button:hover {
@@ -418,15 +419,15 @@
         }
 
         .mini-card {
-            font-size: 14px;
+            font-size: clamp(11px, 2.5vw, 14px);
             padding: 0;
             background: white;
             border: 1.5px solid #333;
             border-radius: 3px;
-            width: 30px;
-            height: 42px;
-            min-width: 30px;
-            min-height: 42px;
+            width: clamp(24px, 5vw, 30px);
+            height: clamp(34px, 7vw, 42px);
+            min-width: 24px;
+            min-height: 34px;
             max-width: 30px;
             max-height: 42px;
             text-align: center;
@@ -636,10 +637,8 @@
             border-radius: 0;
             padding: 15px;
             box-shadow: none;
-            position: absolute;
-            top: 50%;
-            left: 50%;
-            transform: translate(-50%, -50%);
+            position: relative;
+            z-index: 10;
         }
 
         .deck-pile, .discard-pile {
@@ -657,6 +656,8 @@
         .card-stack {
             width: clamp(70px, 9vw, 110px);
             height: clamp(105px, 13.5vw, 165px);
+            min-width: 44px;
+            min-height: 44px;
             border: 2px solid #333;
             border-radius: 6px;
             display: flex;
@@ -668,11 +669,14 @@
             transition: all 0.2s;
             background: white;
             position: relative;
+            touch-action: manipulation;
         }
 
         .discard-card {
             width: clamp(70px, 9vw, 110px);
             height: clamp(105px, 13.5vw, 165px);
+            min-width: 44px;
+            min-height: 44px;
             border: 2px solid #333;
             border-radius: 6px;
             display: inline-flex;
@@ -686,6 +690,7 @@
             padding: clamp(3px, 0.5vw, 6px);
             box-shadow: 0 2px 4px rgba(0,0,0,0.1);
             font-size: clamp(8px, 1.2vw, 12px);
+            touch-action: manipulation;
         }
 
         .discard-card .card-corner {
@@ -782,8 +787,8 @@
         }
 
         .card {
-            width: 110px;
-            height: 165px;
+            width: clamp(70px, 15vw, 110px);
+            height: clamp(105px, 22.5vw, 165px);
             border: 2px solid #333;
             border-radius: 6px;
             display: inline-flex;
@@ -2264,6 +2269,8 @@
             color: white;
             border: 3px solid #1e7e34;
             padding: 15px 40px;
+            min-height: 44px;
+            min-width: 44px;
             border-radius: 12px;
             font-size: 24px;
             font-weight: bold;
@@ -2272,6 +2279,7 @@
             box-shadow: 0 4px 12px rgba(0,0,0,0.3);
             transition: all 0.2s;
             text-shadow: 1px 1px 2px rgba(0,0,0,0.3);
+            touch-action: manipulation;
         }
 
         .payme-button:hover {
