@@ -1023,6 +1023,9 @@
             z-index: 50;
             flex: 0 0 auto;
             min-height: 240px;
+            width: 100%;
+            max-width: 100%;
+            overflow: hidden;
         }
 
         .hand-label {
@@ -1042,6 +1045,27 @@
             align-items: flex-end;
             padding-top: 15px;
             max-width: 100%;
+            /* Smooth scrolling for touch devices */
+            -webkit-overflow-scrolling: touch;
+            scroll-behavior: smooth;
+        }
+        
+        /* Hide scrollbar but keep functionality */
+        .cards-container::-webkit-scrollbar {
+            height: 4px;
+        }
+        
+        .cards-container::-webkit-scrollbar-track {
+            background: transparent;
+        }
+        
+        .cards-container::-webkit-scrollbar-thumb {
+            background: rgba(0, 0, 0, 0.2);
+            border-radius: 2px;
+        }
+        
+        .cards-container::-webkit-scrollbar-thumb:hover {
+            background: rgba(0, 0, 0, 0.3);
         }
         
         /* Player hand container - prevent overflow and ensure cards fit */
